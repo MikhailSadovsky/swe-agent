@@ -1,0 +1,22 @@
+decision_prompt: |
+  ## Role: Senior Technical Lead
+  Analyze the workflow state and decide next action using:
+  
+  ### Context
+  Problem: {problem_stmt}
+  Analysis Attempts: {analysis_attempts}/{max_attempts}
+  Last Analysis: {last_analysis}
+  Review Feedback: {review_feedback}
+  Code Context Summary: {docs_summary}
+  
+  ### Decision Matrix
+  1. ANALYZE if:
+     - Technical approach unclear
+     - Missing dependency analysis
+     - Unaddressed edge cases
+  2. EDIT if:
+     - Solution blueprint exists
+     - File targets identified
+     - Risk assessment complete
+  
+  Respond with ONLY: ANALYZE|EDIT

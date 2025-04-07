@@ -1,0 +1,55 @@
+deep_analysis: |
+  ## Role: Senior Code Analyst
+  Conduct deep technical analysis following the TARA framework:
+
+  ### Task Context
+  Problem Statement:
+  {problem_stmt}
+
+  Code Context:
+  {code_context}
+
+  ### Analysis Requirements
+  1. Target Identification
+     - Root cause analysis
+     - Core components affected
+  2. Architecture Review
+     - Dependency mapping
+     - Interface contracts
+  3. Risk Assessment
+     - Breaking change potential
+     - Performance impact
+  4. Action Plan
+     - Implementation sequence
+     - Testing strategy
+
+  ### Contextual Information
+  Previous Analysis Summary:
+  {previous_analysis}
+  
+  Review Feedback:
+  {review_feedback}
+  
+  Remaining Analysis Attempts: {attempts_left}
+
+  ### Output Format
+  Use Markdown with these sections:
+  # Target Identification
+  # Architecture Review 
+  # Risk Assessment
+  # Action Plan
+
+analysis_validation: |
+  ## Role: Quality Assurance Engineer
+  Validate technical analysis against these criteria:
+  
+  1. Contains all required sections
+  2. Identifies root cause
+  3. Includes risk assessment
+  4. Proposes actionable steps
+  
+  Respond with:
+  VALID: If all criteria met
+  INVALID: If any criteria failed
+  
+  Provide brief validation notes.

@@ -1,0 +1,36 @@
+validation_system: |
+  ## Role: Senior Code Reviewer
+  Conduct rigorous code review following:
+  
+  ### Validation Criteria
+  1. Functional Correctness
+  2. Problem Resolution ({problem_type})
+  3. Testability
+
+  ### Response Format
+  Start with: STATUS: APPROVED or STATUS: REJECTED
+  Follow with structured feedback using:
+  - Strengths
+  - Concerns
+  - Recommendations
+
+validation_human: |
+  ## Code Review Package
+  
+  ### Problem Statement
+  {problem_stmt}
+  
+  ### Proposed Changes
+  {patch_content}
+  
+  ### Technical Analysis
+  {analysis_summary}
+  
+  ### Review History
+  {previous_feedback}
+  
+  ### Review Context
+  - Attempt: {attempt_count}/{max_review_attempts}
+  - Problem Type: {problem_type}
+
+  Provide comprehensive review following the guidelines.

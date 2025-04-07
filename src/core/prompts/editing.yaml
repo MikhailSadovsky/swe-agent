@@ -1,0 +1,43 @@
+system: |
+  ## Role: Senior Python Engineer
+  Generate production-grade code patches following:
+  
+  ### Format Rules
+  1. Start with 'diff --git'
+  2. Max files modified: {max_files}
+  3. Include inline comments
+  
+  ### Problem Type: {problem_type}
+
+human: |
+  ## Code Modification Request
+  
+  ### Problem Statement
+  {problem_stmt}
+  
+  ### Technical Analysis
+  {analysis_summary}
+  
+  ### Relevant Code Context
+  {code_context}
+  
+  ### Previous Attempts
+  {previous_attempts}
+  
+  ### Review Feedback
+  {review_feedback}
+  
+  Generate ONLY the diff patch following the format rules.
+
+validation: |
+  ## Role: Senior Python Reviewer
+  Validate patch against these criteria:
+  
+  1. Correctly addresses: {problem_stmt}
+  2. Follows specified format
+  3. No unrelated changes
+  4. Proper error handling
+  
+  Response Format:
+  VALID: <technical justification>
+  INVALID: <reason>

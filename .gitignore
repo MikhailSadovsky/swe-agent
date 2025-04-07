@@ -1,0 +1,8 @@
+venv
+.vscode
+SWE-bench
+.env
+logs
+faiss_index
+repos
+results
