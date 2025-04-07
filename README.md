@@ -45,7 +45,7 @@ An LLM-powered agent system using LangGraph and hybrid RAG to solve SWE-Bench ta
 
 5. **Set OpenAI API key**:
     ```bash
-    export OPENAI_API_KEY="your-api-key"  # Add to ~/.bashrc for persistence or configure vie .env file
+    export OPENAI_API_KEY="your-api-key"  # or configure in .env file
 
 ## Usage
 
@@ -54,9 +54,14 @@ Run Agent on SWE-Bench Instances:
     
     python src/main.py --instances astropy__astropy-12907 django__django-10097
 
+Optional arguments:
+    `--dataset`
+    `--predictions-path`
+    `--llm-model`
+
 ## Configuration
 
-Modify config/settings.py for main parameters
+Modify `src/config/settings.py` for main parameters
 
 ## Evaluation
 
