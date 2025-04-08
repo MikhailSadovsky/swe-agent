@@ -24,8 +24,8 @@ class RetrievalSettings(BaseModel):
 
 
 class WorkflowSettings(BaseModel):
-    max_context_tokens: int = Field(default=8000)
-    max_content_length: int = Field(default=1_048_576)
+    max_context_tokens: int = Field(default=120000)
+    max_content_length: int = Field(default=396000)
     max_analysis_attempts: int = Field(default=3)
     max_review_attempts: int = Field(default=3)
     max_files_per_patch: int = Field(default=20)
