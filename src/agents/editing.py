@@ -1,3 +1,4 @@
+from core.constants import TaskType
 from .base import BaseAgent
 from core.prompts import prompt_manager
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -123,7 +124,9 @@ class EditorAgent(BaseAgent):
             **state,
             "generated_patch": patch,
             "edit_history": state["edit_history"] + [patch],
-            "current_task": "review" if "INVALID" not in patch else "software_engineer",
+            "current_task": TaskType.REVIEW
+            if "INVALID" not in patch
+            else TaskType.SOFTWARE_ENGINEER,
             "token_count": state["token_count"]
             + self.common_utils.calculate_tokens(patch),
         }

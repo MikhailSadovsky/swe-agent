@@ -1,4 +1,6 @@
 from langchain_core.language_models import BaseLanguageModel
+
+from core.constants import TaskType
 from .base import BaseAgent
 from core.prompts import prompt_manager
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -103,8 +105,8 @@ class CodeAnalyzerAgent(BaseAgent):
     def _determine_next_step(self, state: Dict[str, Any]) -> str:
         """Determine next workflow step"""
         if state["analysis_attempts"] >= config.workflow.max_analysis_attempts:
-            return "editing"
-        return "software_engineer"
+            return TaskType.EDITING
+        return TaskType.SOFTWARE_ENGINEER
 
     def _calculate_token_usage(self, analysis: str) -> int:
         """Calculate exact token usage"""

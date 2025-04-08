@@ -1,4 +1,5 @@
 from config.settings import config
+from core.constants import TaskType
 from core.data_models import InstanceItem
 from core.retriever import HybridRetriever
 from langgraph.checkpoint.memory import MemorySaver
@@ -31,7 +32,7 @@ class SWEBenchAgent:
             "instance_id": self.instance.instance_id,
             "problem_stmt": self.instance.problem_statement,
             "repo_path": self.repo_path,
-            "current_task": "software_engineer",
+            "current_task": TaskType.SOFTWARE_ENGINEER,
             "retrieved_docs": [],
             "analysis": "",
             "analysis_history": [],

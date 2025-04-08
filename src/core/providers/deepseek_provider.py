@@ -7,7 +7,7 @@ from config.settings import config
 
 class DeepSeekProvider(BaseProvider):
     """Provider for DeepSeek models with OpenAI-compatible API"""
-    
+
     @classmethod
     def supports(cls, model_name: str) -> bool:
         return model_name.startswith("deepseek-")
@@ -24,7 +24,6 @@ class DeepSeekProvider(BaseProvider):
     def create_embeddings(self, **kwargs) -> Embeddings:
         return OpenAIEmbeddings(
             model=config.models.embeddings_model,
-            openai_api_key=config.deepseek_api_key.get_secret_value(),
-            base_url=config.models.deepseek_base_url,
+            openai_api_key=config.openai_api_key.get_secret_value(),
             **kwargs
         )

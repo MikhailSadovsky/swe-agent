@@ -4,6 +4,7 @@ from typing import List
 from datasets import load_dataset
 from langchain_core.embeddings import Embeddings
 from langchain_core.language_models import BaseLanguageModel
+from core.constants import TaskType
 from core.data_models import InstanceItem
 from core.providers import ProviderFactory
 from agents.swe_agent import SWEBenchAgent
@@ -81,8 +82,8 @@ class WorkflowRunner:
     def _determine_status(self, result: dict) -> str:
         """Determine final status from workflow result"""
         if result.get("failure_reason"):
-            return "failed"
-        if result["current_task"] == "complete":
+            return TaskType.FAILED
+        if result["current_task"] == TaskType.COMPLETE:
             return "success"
         return "partial"
 

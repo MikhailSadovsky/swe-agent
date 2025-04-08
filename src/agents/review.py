@@ -1,4 +1,6 @@
 from langchain_core.language_models import BaseLanguageModel
+
+from core.constants import ReviewStatus, TaskType
 from .base import BaseAgent
 from core.prompts import prompt_manager
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -61,11 +63,13 @@ class ReviewAgent(BaseAgent):
             problem_type=self.common_utils.classify_problem(state["problem_stmt"]),
         )
 
-    def _determine_status(self, feedback: str) -> Literal["approved", "rejected"]:
+    def _determine_status(
+        self, feedback: str
+    ) -> Literal[ReviewStatus.APPROVED, ReviewStatus.REJECTED]:
         """Parse review decision from LLM response"""
         if match := self.validation_pattern.search(feedback):
             return match.group(1).lower()
-        return "rejected"
+        return ReviewStatus.REJECTED
 
     def _update_state(
         self, state: Dict[str, Any], feedback: str, status: str
@@ -75,7 +79,7 @@ class ReviewAgent(BaseAgent):
             **state,
             "review_feedback": feedback,
             "review_retry_count": state["review_retry_count"]
-            + (0 if status == "approved" else 1),
+            + (0 if status == ReviewStatus.APPROVED else 1),
             "current_task": self._determine_next_step(status, state),
             "token_count": state["token_count"] + self._calculate_token_usage(feedback),
         }
@@ -106,8 +110,8 @@ class ReviewAgent(BaseAgent):
 
     def _determine_next_step(self, status: str, state: Dict[str, Any]) -> str:
         """Determine workflow progression"""
-        if status == "approved":
-            return "complete"
+        if status == ReviewStatus.APPROVED:
+            return TaskType.COMPLETE
         if state["review_retry_count"] >= config.workflow.max_review_attempts:
-            return "failed"
-        return "software_engineer"
+            return TaskType.FAILED
+        return TaskType.SOFTWARE_ENGINEER

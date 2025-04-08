@@ -1,9 +1,10 @@
+from core.constants import TaskType
 from .base import BaseAgent
 from config.settings import config
 from core.prompts import prompt_manager
 from core.retriever import HybridRetriever
 from langchain_core.language_models import BaseLanguageModel
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage
 from typing import Dict, Any
 import logging
 
@@ -84,5 +85,5 @@ class SoftwareEngineerAgent(BaseAgent):
 
     def _parse_response(self, response: str) -> str:
         if response.upper() == "ANALYZE":
-            return "code_analysis"
-        return "editing"
+            return TaskType.CODE_ANALYSIS
+        return TaskType.EDITING

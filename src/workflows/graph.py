@@ -1,5 +1,6 @@
 from langchain_core.language_models import BaseLanguageModel
 from langgraph.graph import END, StateGraph
+from core.constants import TaskType
 from core.state import WorkflowState
 from core.retriever import HybridRetriever
 from agents import CodeAnalyzerAgent, SoftwareEngineerAgent, EditorAgent, ReviewAgent
@@ -14,47 +15,55 @@ def build_workflow(llm: BaseLanguageModel, retriever: HybridRetriever) -> StateG
     editor = EditorAgent(llm=llm)
     reviewer = ReviewAgent(llm=llm)
 
-    workflow.add_node("software_engineer", engineer.execute)
-    workflow.add_node("code_analysis", analyzer.execute)
-    workflow.add_node("editing", editor.execute)
-    workflow.add_node("review", reviewer.execute)
-    workflow.add_node("complete", lambda state: state)
-    workflow.add_node("failed", lambda state: state)
+    workflow.add_node(TaskType.SOFTWARE_ENGINEER, engineer.execute)
+    workflow.add_node(TaskType.CODE_ANALYSIS, analyzer.execute)
+    workflow.add_node(TaskType.EDITING, editor.execute)
+    workflow.add_node(TaskType.REVIEW, reviewer.execute)
+    workflow.add_node(TaskType.COMPLETE, lambda state: state)
+    workflow.add_node(TaskType.FAILED, lambda state: state)
 
-    workflow.add_edge("software_engineer", "code_analysis")
-
-    workflow.add_conditional_edges(
-        "code_analysis",
-        lambda s: "editing" if s["current_task"] == "editing" else "software_engineer",
-        {"editing": "editing", "software_engineer": "software_engineer"},
-    )
+    workflow.add_edge(TaskType.SOFTWARE_ENGINEER, TaskType.CODE_ANALYSIS)
 
     workflow.add_conditional_edges(
-        "software_engineer",
-        lambda s: "failed" if _detect_stagnation(s) else "code_analysis",
-        {"code_analysis": "code_analysis", "failed": "failed"},
-    )
-
-    workflow.add_conditional_edges(
-        "editing",
-        lambda s: "review" if s["generated_patch"] else "failed",
-        {"review": "review", "failed": "failed"},
-    )
-
-    workflow.add_conditional_edges(
-        "review",
-        lambda s: _determine_review_next_step(s),
+        TaskType.CODE_ANALYSIS,
+        lambda s: TaskType.EDITING
+        if s["current_task"] == TaskType.EDITING
+        else TaskType.SOFTWARE_ENGINEER,
         {
-            "complete": "complete",
-            "software_engineer": "software_engineer",
-            "failed": "failed",
+            TaskType.EDITING: TaskType.EDITING,
+            TaskType.SOFTWARE_ENGINEER: TaskType.SOFTWARE_ENGINEER,
         },
     )
 
-    workflow.add_edge("complete", END)
-    workflow.add_edge("failed", END)
+    workflow.add_conditional_edges(
+        TaskType.SOFTWARE_ENGINEER,
+        lambda s: TaskType.FAILED if _detect_stagnation(s) else TaskType.CODE_ANALYSIS,
+        {
+            TaskType.CODE_ANALYSIS: TaskType.CODE_ANALYSIS,
+            TaskType.FAILED: TaskType.FAILED,
+        },
+    )
 
-    workflow.set_entry_point("software_engineer")
+    workflow.add_conditional_edges(
+        TaskType.EDITING,
+        lambda s: TaskType.REVIEW if s["generated_patch"] else TaskType.FAILED,
+        {TaskType.REVIEW: TaskType.REVIEW, TaskType.FAILED: TaskType.FAILED},
+    )
+
+    workflow.add_conditional_edges(
+        TaskType.REVIEW,
+        lambda s: _determine_review_next_step(s),
+        {
+            TaskType.COMPLETE: TaskType.COMPLETE,
+            TaskType.SOFTWARE_ENGINEER: TaskType.SOFTWARE_ENGINEER,
+            TaskType.FAILED: TaskType.FAILED,
+        },
+    )
+
+    workflow.add_edge(TaskType.COMPLETE, END)
+    workflow.add_edge(TaskType.FAILED, END)
+
+    workflow.set_entry_point(TaskType.SOFTWARE_ENGINEER)
     return workflow
 
 
@@ -72,8 +81,8 @@ def _detect_stagnation(state: WorkflowState) -> bool:
 
 def _determine_review_next_step(state: WorkflowState) -> str:
     """Determine next step after review"""
-    if state["current_task"] == "complete":
-        return "complete"
+    if state["current_task"] == TaskType.COMPLETE:
+        return TaskType.COMPLETE
     if state["review_retry_count"] >= config.workflow.max_review_attempts:
-        return "failed"
-    return "software_engineer"
+        return TaskType.FAILED
+    return TaskType.SOFTWARE_ENGINEER

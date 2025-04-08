@@ -3,6 +3,8 @@ from typing import TypedDict, Literal
 from langchain_core.documents import Document
 from typing import Annotated, List
 
+from core.constants import TaskType
+
 
 def overwrite_reducer(old_value, new_value):
     return new_value
@@ -24,7 +26,13 @@ class WorkflowState(TypedDict):
     problem_stmt: Annotated[str, overwrite_reducer]
     repo_path: Annotated[str, overwrite_reducer]
     current_task: Annotated[
-        Literal["software_engineer", "code_analysis", "editing", "review", "complete"],
+        Literal[
+            TaskType.SOFTWARE_ENGINEER,
+            TaskType.CODE_ANALYSIS,
+            TaskType.EDITING,
+            TaskType.REVIEW,
+            TaskType.COMPLETE,
+        ],
         overwrite_reducer,
     ]
     retrieved_docs: Annotated[List[Document], operator.add]

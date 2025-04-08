@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from config.settings import config
+from core.constants import TaskType
 from utils.common_utils import CommonUtils
 from langchain_core.language_models import BaseLanguageModel
 from typing import Any, Dict
@@ -21,7 +22,7 @@ class BaseAgent(ABC):
         logger.error(error_msg)
         return {
             **state,
-            "current_task": "software_engineer",
+            "current_task": TaskType.SOFTWARE_ENGINEER,
             "failure_reason": error_msg,
             "token_count": state.get("token_count", 0) + 500,
         }
