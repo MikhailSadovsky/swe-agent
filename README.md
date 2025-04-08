@@ -12,6 +12,12 @@ An LLM-powered agent system using LangGraph and hybrid RAG to solve SWE-Bench ta
 - Stagnation detection and workflow progression logic
 - Official SWE-Bench evaluation harness integration
 
+### Workflow
+
+The graph workflow is implemented in [`graph.py`](src/workflows/graph.py). The workflow visualization:
+
+![Workflow Visualization](media/workflow_graph.png)
+
 ## Prerequisites
 
 - Python 3.10+
@@ -65,7 +71,7 @@ Use this command to see all arguments description:
     python src/main.py --help
 ## Configuration
 
-Modify `src/config/settings.py` for main parameters
+Modify [`settings.py`](src/config/settings.py) for main parameters
 
 ## Evaluation
 
