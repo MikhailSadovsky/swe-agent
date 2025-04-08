@@ -6,7 +6,6 @@ from config.settings import config
 from typing import Dict, Any, Literal
 import re
 import logging
-import tiktoken
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +14,7 @@ class ReviewAgent(BaseAgent):
     def __init__(self, llm: BaseLanguageModel):
         super().__init__(llm)
 
-        self.encoder = tiktoken.encoding_for_model(config.models.llm_model)
+        self.encoder = self.common_utils.get_encoder()
 
         self.system_prompt_template = prompt_manager.get_prompt(
             "review", "validation_system"

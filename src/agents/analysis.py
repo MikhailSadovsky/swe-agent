@@ -5,7 +5,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from config.settings import config
 from typing import Dict, Any
 import logging
-import tiktoken
 import re
 
 logger = logging.getLogger(__name__)
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 class CodeAnalyzerAgent(BaseAgent):
     def __init__(self, llm: BaseLanguageModel):
         super().__init__(llm)
-        self.encoder = tiktoken.encoding_for_model(config.models.llm_model)
+        self.encoder = self.common_utils.get_encoder()
 
         self.analysis_prompt_template = prompt_manager.get_prompt(
             "analysis", "deep_analysis"

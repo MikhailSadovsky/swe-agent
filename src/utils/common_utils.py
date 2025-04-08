@@ -10,7 +10,10 @@ class CommonUtils:
     def get_encoder(cls, model_name: str = None):
         model_name = model_name or config.models.llm_model
         if model_name not in cls._encoders:
-            cls._encoders[model_name] = tiktoken.encoding_for_model(model_name)
+            try:
+                cls._encoders[model_name] = tiktoken.encoding_for_model(model_name)
+            except KeyError:
+                cls._encoders[model_name] = tiktoken.get_encoding("cl100k_base")
         return cls._encoders[model_name]
 
     @classmethod
