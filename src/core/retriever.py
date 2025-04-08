@@ -38,7 +38,7 @@ class HybridRetriever:
             )
             logger.info(f"Loaded existing FAISS index from {self.index_path}")
         except Exception as e:
-            logger.info(f"Creating new vector store: {str(e)}")
+            logger.info(f"Creating new vector store in {self.index_path}")
             docs = self._load_and_preprocess_docs()
             self.vector_retriever = FAISS.from_documents(docs, self.embeddings)
             self.vector_retriever.save_local(str(self.index_path))

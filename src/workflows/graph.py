@@ -4,7 +4,6 @@ from core.state import WorkflowState
 from core.retriever import HybridRetriever
 from agents import CodeAnalyzerAgent, SoftwareEngineerAgent, EditorAgent, ReviewAgent
 from config.settings import config
-import re
 
 
 def build_workflow(llm: BaseLanguageModel, retriever: HybridRetriever) -> StateGraph:
