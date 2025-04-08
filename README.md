@@ -49,9 +49,10 @@ The graph workflow is implemented in [`graph.py`](src/workflows/graph.py). The w
     pip install -e .
     cd ..
 
-5. **Set OpenAI API key**:
+5. **Set OpenAI/Deepseek API keys**:
     ```bash
-    export OPENAI_API_KEY="your-api-key"  # or configure in .env file
+    export OPENAI_API_KEY="your-api-key"
+    export DEEPSEEK_API_KEY="your-api-key"
 
 ## Usage
 
@@ -63,7 +64,7 @@ Run Agent on SWE-Bench Instances:
 Optional arguments:
 - dataset - name of the dataset to use for evaluation. Default value is princeton-nlp/SWE-bench_Verified.
 - predictions-path - path where predictions are stored. Default value is results/predictions.json.
-- llm-model - LLM model to use (currently supported gpt-\*, llama\*). Default value is gpt-4-turbo.
+- llm-model - LLM model to use (currently supported gpt-\*, deepseek-\*, llama\*). Default value is gpt-4-turbo.
 - embeddings-model - model used for embeddings generation. Default value is text-embedding-3-small.
 
 Use this command to see arguments description if needed:

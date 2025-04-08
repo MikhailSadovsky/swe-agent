@@ -1,4 +1,5 @@
 from .base_provider import BaseProvider
+from .deepseek_provider import DeepSeekProvider
 from .ollama_provider import OllamaProvider
 from .openai_provider import OpenAIProvider
 
@@ -6,7 +7,7 @@ from .openai_provider import OpenAIProvider
 class ProviderFactory:
     """Factory to get the appropriate provider."""
 
-    _providers = [OpenAIProvider, OllamaProvider]
+    _providers = [DeepSeekProvider, OpenAIProvider, OllamaProvider]
 
     @classmethod
     def get_provider(cls, model_name: str) -> BaseProvider:

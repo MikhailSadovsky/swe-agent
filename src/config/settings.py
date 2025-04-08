@@ -13,6 +13,7 @@ class ModelSettings(BaseModel):
     embeddings_model: str = Field(default="text-embedding-3-small")
     llm_model: str = Field(default="gpt-4-turbo")
     temperature: float = Field(default=0.0)
+    deepseek_base_url: str = Field(default="https://api.deepseek.com/v1")
 
 
 class RetrievalSettings(BaseModel):
@@ -46,6 +47,7 @@ class Settings(BaseSettings):
     workflow: WorkflowSettings = WorkflowSettings()
     evaluation: EvaluationSettings = EvaluationSettings()
     openai_api_key: SecretStr
+    deepseek_api_key: SecretStr
     repo_clone_path: str = Field(default="repos")
 
     model_config = SettingsConfigDict(

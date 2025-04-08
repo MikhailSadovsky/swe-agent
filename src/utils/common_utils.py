@@ -11,7 +11,10 @@ class CommonUtils:
         model_name = model_name or config.models.llm_model
         if model_name not in cls._encoders:
             try:
-                cls._encoders[model_name] = tiktoken.encoding_for_model(model_name)
+                if "deepseek" in model_name.lower():
+                    cls._encoders[model_name] = tiktoken.encoding_for_model("gpt-4")
+                else:
+                    cls._encoders[model_name] = tiktoken.encoding_for_model(model_name)
             except KeyError:
                 cls._encoders[model_name] = tiktoken.get_encoding("cl100k_base")
         return cls._encoders[model_name]
