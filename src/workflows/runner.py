@@ -4,8 +4,8 @@ from typing import List
 from datasets import load_dataset
 from langchain_core.embeddings import Embeddings
 from langchain_core.language_models import BaseLanguageModel
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from core.data_models import InstanceItem
+from core.providers import ProviderFactory
 from agents.swe_agent import SWEBenchAgent
 from evaluation.storage import PredictionStore
 from config.settings import config
@@ -15,25 +15,18 @@ logger = logging.getLogger(__name__)
 
 class WorkflowRunner:
     def __init__(self):
-        self.llm = self._initialize_llm()
-        self.embeddings = self._initialize_embeddings()
+        self.llm, self.embeddings = self._initialize_llm_and_embeddings()
         self.prediction_store = PredictionStore()
         self.processed_instances = set()
 
-    def _initialize_llm(self) -> BaseLanguageModel:
-        """Create configured LLM instance once"""
-        return ChatOpenAI(
-            model=config.models.llm_model,
-            temperature=config.models.temperature,
-            openai_api_key=config.openai_api_key.get_secret_value(),
-        )
+    def _initialize_llm_and_embeddings(self) -> tuple[BaseLanguageModel, Embeddings]:
+        """Initialize LLM and embeddings using the provider factory."""
+        provider = ProviderFactory.get_provider(config.models.llm_model)
 
-    def _initialize_embeddings(self) -> Embeddings:
-        """Create configured embeddings once"""
-        return OpenAIEmbeddings(
-            model=config.models.embeddings_model,
-            openai_api_key=config.openai_api_key.get_secret_value(),
-        )
+        llm = provider.create_llm()
+        embeddings = provider.create_embeddings()
+
+        return llm, embeddings
 
     def process_instances(self, instance_ids: List[str]):
         """Process list of SWE-bench instances"""

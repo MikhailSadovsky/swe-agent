@@ -6,3 +6,4 @@ logs
 faiss_index
 repos
 results
+__pycache__/

@@ -57,8 +57,12 @@ Run Agent on SWE-Bench Instances:
 Optional arguments:
     `--dataset`
     `--predictions-path`
-    `--llm-model`
+    `--llm-model` (currently supported: gpt-* or llama*)
+    `--embeddings-model`
 
+Use this command to see all arguments description:
+
+    python src/main.py --help
 ## Configuration
 
 Modify `src/config/settings.py` for main parameters
