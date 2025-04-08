@@ -61,12 +61,12 @@ Run Agent on SWE-Bench Instances:
     python src/main.py --instances astropy__astropy-12907 django__django-10097
 
 Optional arguments:
-    `--dataset`
-    `--predictions-path`
-    `--llm-model` (currently supported: gpt-* or llama*)
-    `--embeddings-model`
+- dataset - name of the dataset to use for evaluation. Default value is princeton-nlp/SWE-bench_Verified.
+- predictions-path - path where predictions are stored. Default value is results/predictions.json.
+- llm-model - LLM model to use (currently supported gpt-\*, llama\*). Default value is gpt-4-turbo.
+- embeddings-model - model used for embeddings generation. Default value is text-embedding-3-small.
 
-Use this command to see all arguments description:
+Use this command to see arguments description if needed:
 
     python src/main.py --help
 ## Configuration

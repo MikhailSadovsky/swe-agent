@@ -24,22 +24,22 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dataset",
         default=config.evaluation.dataset_name,
-        help="Name of the dataset to use for evaluation.",
+        help="Name of the dataset to use for evaluation. Default value is princeton-nlp/SWE-bench_Verified",
     )
     parser.add_argument(
         "--predictions-path",
         default=config.evaluation.predictions_path,
-        help="Path where predictions are stored.",
+        help="Path where predictions are stored. Default value is results/predictions.json",
     )
     parser.add_argument(
         "--llm-model",
         default=config.models.llm_model,
-        help="Specify the LLM model to use (currently supported gpt-*, llama*).",
+        help="Specify the LLM model to use (currently supported gpt-*, llama*). Default value is gpt-4-turbo",
     )
     parser.add_argument(
         "--embeddings-model",
         default=config.models.embeddings_model,
-        help="Specify the model used for embeddings generation.",
+        help="Specify the model used for embeddings generation. Default value is text-embedding-3-small",
     )
 
     args = parser.parse_args()
