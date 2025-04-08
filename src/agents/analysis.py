@@ -10,6 +10,7 @@ import re
 
 logger = logging.getLogger(__name__)
 
+
 class CodeAnalyzerAgent(BaseAgent):
     def __init__(self, llm: BaseLanguageModel):
         super().__init__(llm)

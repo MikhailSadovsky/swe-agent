@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ReviewAgent(BaseAgent):
     def __init__(self, llm: BaseLanguageModel):
         super().__init__(llm)
-        
+
         self.encoder = tiktoken.encoding_for_model(config.models.llm_model)
 
         self.system_prompt_template = prompt_manager.get_prompt(

@@ -9,6 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class SoftwareEngineerAgent(BaseAgent):
     def __init__(self, llm: BaseLanguageModel, retriever: HybridRetriever):
         super().__init__(llm)
